@@ -600,7 +600,7 @@
     </div>
 
     <div class="round-label">NATIVE COUNTRY</div>
-    <div class="date-label">Where does this animal live in the wild?</div>
+    <div class="date-label" id="round2-prompt"></div>
 
     <div class="card">
       <div class="specimen-frame">
@@ -718,7 +718,8 @@
     },
     countries: {
       accepted: ["South Africa", "Namibia", "Botswana", "Angola", "Lesotho", "Eswatini"],
-      maxGuesses: 3
+      maxGuesses: 3,
+      prompt: "Where does this animal live in the wild?"
     },
     funFact: {
       question: "Which of the following is true about the springbuck?",
@@ -842,6 +843,10 @@
       issues.push(`gameUrl still has the placeholder link. Once your site is live, update it near the top of the script so shared results include a working link.`);
     }
 
+    if (!puzzle.countries.prompt || puzzle.countries.prompt.trim() === "") {
+      issues.push(`countries.prompt is empty. Add a question like "Where does this animal live in the wild?" or "In which countries' waters does this fish live?"`);
+    }
+
     if (issues.length > 0) {
       const banner = document.getElementById('data-warning-banner');
       banner.innerHTML = '<strong>⚠ Today\'s puzzle data needs a fix</strong><ul>' +
@@ -868,6 +873,7 @@
   document.getElementById('specimen-img').src = puzzle.animal.imageUrl;
   document.getElementById('credit-line').textContent = puzzle.animal.imageCredit;
   document.getElementById('date-label').textContent = formatDate(puzzle.date);
+  document.getElementById('round2-prompt').textContent = puzzle.countries.prompt;
 
   function formatDate(isoDate) {
     const [year, month, day] = isoDate.split('-').map(Number);
