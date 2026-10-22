@@ -820,20 +820,19 @@
 
   // ---- Master animal list (starter set — alphabetized, easy to extend) ----
   const masterAnimalList = [
-    "Aardvark", "Aardwolf", "Adelie Penguin", "African Buffalo", "African Elephant",
-    "African Grey Parrot", "African Pygmy Hedgehog", "African Wild Dog", "Albatross", "Alpaca",
-    "Alpine Ibex", "Alpine Marmot", "Amazon River Dolphin", "Amazonian Manatee",
-    "American Alligator", "American Bison", "American Bullfrog", "American Crow", "American Eel",
-    "American Flamingo", "American Lobster", "American Mink", "American Pika", "American Robin",
-    "American Toad", "American White Pelican", "Anaconda", "Andean Condor", "Angelfish",
-    "Anglerfish", "Anna's Hummingbird", "Anteater", "Arabian Oryx", "Arctic Fox", "Arctic Hare",
-    "Arctic Wolf", "Armadillo", "Asian Black Bear", "Asian Elephant", "Atlantic Cod",
-    "Atlantic Cutlassfish", "Atlantic Sailfish", "Atlantic Salmon", "Axis Deer", "Axolotl",
-    "Baboon", "Bactrian Camel", "Badger", "Baird's Tapir", "Bald Eagle", "Ball Python",
-    "Banded Mongoose", "Barn Owl", "Barred Owl", "Basking Shark", "Bearded Dragon", "Beaver",
-    "Belted Kingfisher", "Bengal Tiger", "Bighorn Sheep", "Black Bear", "Black Drum",
-    "Black Grouper", "Black Mamba", "Black Marlin", "Black Panther", "Black Rat",
-    "Black Rhinoceros", "Black Swan", "Black Vulture", "Black Widow",
+    "Aardvark", "Aardwolf", "Adelie Penguin", "African Elephant", "African Grey Parrot",
+    "African Pygmy Hedgehog", "African Wild Dog", "Albatross", "Alpaca", "Alpine Ibex",
+    "Alpine Marmot", "Amazon River Dolphin", "Amazonian Manatee", "American Alligator",
+    "American Bison", "American Bullfrog", "American Crow", "American Eel", "American Flamingo",
+    "American Lobster", "American Mink", "American Pika", "American Robin", "American Toad",
+    "American White Pelican", "Anaconda", "Andean Condor", "Angelfish", "Anglerfish",
+    "Anna's Hummingbird", "Anteater", "Arabian Oryx", "Arctic Fox", "Arctic Hare", "Arctic Wolf",
+    "Armadillo", "Asian Black Bear", "Asian Elephant", "Atlantic Cod", "Atlantic Cutlassfish",
+    "Atlantic Sailfish", "Atlantic Salmon", "Axis Deer", "Axolotl", "Baboon", "Bactrian Camel",
+    "Badger", "Baird's Tapir", "Bald Eagle", "Ball Python", "Banded Mongoose", "Barn Owl",
+    "Barred Owl", "Basking Shark", "Bearded Dragon", "Beaver", "Belted Kingfisher", "Bengal Tiger",
+    "Bighorn Sheep", "Black Bear", "Black Drum", "Black Grouper", "Black Mamba", "Black Marlin",
+    "Black Panther", "Black Rat", "Black Rhinoceros", "Black Swan", "Black Vulture", "Black Widow",
     "Black-and-white Ruffed Lemur", "Black-backed Jackal", "Black-billed Magpie",
     "Black-tailed Prairie Dog", "Blackbuck", "Blacktail Deer", "Blue Catfish", "Blue Crab",
     "Blue Duiker", "Blue Jay", "Blue Marlin", "Blue Whale", "Blue-and-yellow Macaw",
@@ -842,13 +841,13 @@
     "Box Jellyfish", "Box Turtle", "Brazilian Tapir", "Brook Trout", "Brown Bear", "Brown Hyena",
     "Brown Pelican", "Brown Rat", "Brown Recluse", "Brown Shrimp", "Bull Shark", "Burmese Python",
     "Burrowing Owl", "Bushbuck", "California Condor", "California Quail", "California Sea Lion",
-    "Canada Lynx", "Cane Toad", "Cape Cobra", "Capybara", "Caracal", "Caribou", "Carrion Crow",
-    "Cassowary", "Channel Catfish", "Cheetah", "Chicken", "Chimpanzee", "Chinchilla",
-    "Chinese Alligator", "Chinese Water Deer", "Chinook Salmon", "Chipmunk", "Cobia",
-    "Coconut Crab", "Coho Salmon", "Common Brushtail Possum", "Common Duiker", "Common Eland",
-    "Common Kingfisher", "Common Loon", "Common Octopus", "Common Raven", "Common Reedbuck",
-    "Common Shrew", "Common Wombat", "Copperhead", "Coral Snake", "Cottonmouth", "Coyote",
-    "Crested Gecko", "Crested Porcupine", "Crown-of-thorns Starfish", "Cubera Snapper",
+    "Canada Lynx", "Cane Toad", "Cape Buffalo (African Buffalo)", "Cape Cobra", "Capybara",
+    "Caracal", "Caribou", "Carrion Crow", "Cassowary", "Channel Catfish", "Cheetah", "Chicken",
+    "Chimpanzee", "Chinchilla", "Chinese Alligator", "Chinese Water Deer", "Chinook Salmon",
+    "Chipmunk", "Cobia", "Coconut Crab", "Coho Salmon", "Common Brushtail Possum", "Common Duiker",
+    "Common Eland", "Common Kingfisher", "Common Loon", "Common Octopus", "Common Raven",
+    "Common Reedbuck", "Common Shrew", "Common Wombat", "Copperhead", "Coral Snake", "Cottonmouth",
+    "Coyote", "Crested Gecko", "Crested Porcupine", "Crown-of-thorns Starfish", "Cubera Snapper",
     "Cuttlefish", "Dall Sheep", "Deathstalker Scorpion", "Dhole", "Dingo", "Domestic Cat",
     "Domestic Cow", "Domestic Pig", "Domestic Sheep", "Donkey", "Downy Woodpecker",
     "Dromedary Camel", "Dugong", "Dungeness Crab", "Dwarf Hamster", "Earthworm",
@@ -967,9 +966,6 @@
           "Bull",
           "Ox"
       ],
-      "American Bison": [
-          "American Buffalo"
-      ],
       "Bluewing Teal": [
           "Blue-winged Teal"
       ],
@@ -1034,14 +1030,15 @@
       "Mangrove Snapper": [
           "Gray Snapper"
       ],
-      "African Buffalo": [
-          "Cape Buffalo"
-      ],
       "Common Eland": [
           "Cape Eland"
       ],
       "Blackbuck": [
           "Black Buck"
+      ],
+      "Cape Buffalo (African Buffalo)": [
+          "Cape Buffalo",
+          "African Buffalo"
       ]
   };
 
