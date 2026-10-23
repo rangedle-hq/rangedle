@@ -463,6 +463,46 @@
     stroke-width: 1;
   }
 
+  .theme-badge {
+    display: inline-block;
+    margin: 0 auto 12px;
+    padding: 4px 14px;
+    border: 1.5px solid var(--brass);
+    border-radius: 20px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--brass-dark);
+  }
+  .theme-note {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin: -6px 0 12px;
+  }
+  .species-card, .explain-box {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: var(--paper);
+    border: 1px solid rgba(30,54,38,0.2);
+    border-radius: 3px;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+  }
+  .species-card.show, .explain-box.show { display: block; }
+  .species-card .sc-row { margin-top: 4px; }
+  .species-card .sc-label, .explain-box .sc-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    display: block;
+  }
+  .species-card .sc-name { font-family: 'Fraunces', serif; font-style: italic; font-size: 16px; }
+
   .answer-key {
     margin-top: 12px;
     padding-top: 12px;
@@ -644,6 +684,8 @@
 
   <div class="round-label">ANIMAL OF THE DAY</div>
   <div class="date-label" id="date-label"></div>
+  <div style="text-align:center;"><div class="theme-badge" id="theme-badge" style="display:none;"></div>
+  <div class="theme-note" id="theme-note" style="display:none;"></div></div>
 
   <div class="card">
     <div class="specimen-frame">
@@ -670,6 +712,7 @@
       <div class="sub" id="result-sub"></div>
     </div>
 
+    <div class="species-card" id="species-card"></div>
     <button class="continue-btn" id="continue-btn">Continue to Round 2 →</button>
   </div>
 </div>
@@ -736,6 +779,7 @@
         <div class="sub" id="result-sub-r3"></div>
       </div>
 
+      <div class="explain-box" id="explain-box"></div>
       <button class="continue-btn" id="continue-btn-r3">See Your Results →</button>
     </div>
   </div>
@@ -784,68 +828,209 @@
   const gameUrl = "https://rangedle-hq.github.io/rangedle/";
 
   // ==========================================================================
-  // ================  EDIT EVERYTHING BELOW FOR A NEW DAY  =================
+  // ================  EDIT EVERYTHING BELOW FOR NEW DAYS  ==================
   // ==========================================================================
-  // Change the date, the animal name/image/credit, the accepted countries,
-  // and the fun fact question below. Nothing else in this file needs to change.
-  // Don't forget to also swap the animal photo file in your images/ folder
-  // if you're using a new animal.
-  const puzzle = {
-    date: "2026-09-22",
-    animal: {
-      name: "Springbok",
-      imageUrl: "images/springbok.jpg",
-      imageCredit: "Photo: Luca Galuzzi (CC BY-SA 2.5, via Wikimedia Commons)",
-      maxGuesses: 3
+  // Each day is one block, and each block has its own date. The game shows the
+  // block that matches today's date in Central Time, and switches to the next
+  // one at midnight Central. You can queue up as many days as you like.
+  //
+  // To add a day: copy the TEMPLATE at the bottom of the list, paste it above
+  // the template, and fill it in. Keep the comma after each closing brace.
+  // Blocks can be in any order. Don't forget to put each new animal photo in
+  // your images/ folder.
+  const puzzles = [
+
+    // ---------- one day ----------
+    {
+      date: "2026-09-22",
+      theme: "",
+      animal: {
+        name: "Springbok",
+        scientificName: "Antidorcas marsupialis",
+        status: "Least Concern",
+        habitat: "Dry, open plains and scrubland of southwestern Africa",
+        imageUrl: "images/springbok.jpg",
+        imageCredit: "Photo: Luca Galuzzi (CC BY-SA 2.5, via Wikimedia Commons)",
+        maxGuesses: 3
+      },
+      countries: {
+        accepted: ["South Africa", "Namibia", "Botswana", "Angola", "Lesotho", "Eswatini"],
+        maxGuesses: 3,
+        prompt: "Where does this animal live in the wild?"
+      },
+      funFact: {
+        question: "Which of the following is true about the springbuck?",
+        options: [
+          "Fastest animal in Africa",
+          "National Animal of South Africa",
+          "Breeds in the winter only",
+          "Average adult weight is 121 pounds/55 kg"
+        ],
+        correctAnswer: "National Animal of South Africa",
+        explanation: "The springbok is South Africa's national animal, and the national rugby team is nicknamed the Springboks after it."
+      }
     },
-    countries: {
-      accepted: ["South Africa", "Namibia", "Botswana", "Angola", "Lesotho", "Eswatini"],
-      maxGuesses: 3,
-      prompt: "Where does this animal live in the wild?"
+
+    /* ---- TEMPLATE: copy everything from { to }, paste it above this comment ----
+       Optional fields: theme, scientificName, status, habitat and explanation.
+       Leave an optional field as "" (or delete the line) and it simply won't show.
+    {
+      date: "YYYY-MM-DD",
+      theme: "",
+      animal: {
+        name: "",
+        scientificName: "",
+        status: "",
+        habitat: "",
+        imageUrl: "images/FILENAME.jpg",
+        imageCredit: "Photo: AUTHOR (LICENSE, via Wikimedia Commons)",
+        maxGuesses: 3
+      },
+      countries: {
+        accepted: ["Country", "Country"],
+        maxGuesses: 3,
+        prompt: "Where does this animal live in the wild?"
+      },
+      funFact: {
+        question: "",
+        options: ["", "", "", ""],
+        correctAnswer: "",
+        explanation: ""
+      }
     },
-    funFact: {
-      question: "Which of the following is true about the springbuck?",
-      options: [
-        "Fastest animal in Africa",
-        "National Animal of South Africa",
-        "Breeds in the winter only",
-        "Average adult weight is 121 pounds/55 kg"
-      ],
-      correctAnswer: "National Animal of South Africa"
-    }
-  };
+    */
+
+  ];
   // ==========================================================================
   // ======================  END OF DAILY EDIT ZONE  ========================
   // ==========================================================================
+
+  // ==========================================================================
+  // ==========  THEMES (only edit this when you want a new theme)  ===========
+  // ==========================================================================
+  // Give a day a theme by adding   theme: "Big Cat Week"   to its block above.
+  // The theme name shows at the top of the page and in the shared results.
+  //   limitGuesses: true   -> players can only pick animals from that theme's list (easier)
+  //   limitGuesses: false  -> the theme is just a label and players search every animal (harder)
+  // Every name in "animals" must match a name in masterAnimalList exactly.
+  // A week is just seven days in a row with the same theme.
+  const themes = {
+    "Big Cat Week": {
+      limitGuesses: false,
+      animals: ["Bengal Tiger", "Cheetah", "Jaguar", "Leopard", "Lion", "Mountain Lion",
+                "Siberian Tiger", "Snow Leopard", "Sumatran Tiger"]
+    },
+    "Waterfowl Week": {
+      limitGuesses: false,
+      animals: ["American Black Duck", "American Wigeon", "Bar-headed Goose", "Barnacle Goose",
+                "Barrow's Goldeneye", "Black Scoter", "Black Swan", "Black-bellied Whistling-Duck",
+                "Bluewing Teal", "Brant", "Bufflehead", "Cackling Goose", "Canada Goose",
+                "Canvasback", "Cinnamon Teal", "Common Eider", "Common Goldeneye",
+                "Common Merganser", "Egyptian Goose", "Emperor Goose", "Eurasian Wigeon",
+                "Fulvous Whistling-Duck", "Gadwall", "Greater Scaup",
+                "Greater White-fronted Goose", "Greenwing Teal", "Greylag Goose", "Harlequin Duck",
+                "Hooded Merganser", "King Eider", "Lesser Scaup", "Long-tailed Duck", "Mallard",
+                "Mandarin Duck", "Mottled Duck", "Muscovy Duck", "Mute Swan", "Northern Pintail",
+                "Northern Shoveler", "Red-breasted Merganser", "Redhead", "Ring-necked Duck",
+                "Ross's Goose", "Ruddy Duck", "Snow Goose", "Surf Scoter", "Trumpeter Swan",
+                "Tundra Swan", "White-winged Scoter", "Wood Duck"]
+    },
+    "Shark Week": {
+      limitGuesses: false,
+      animals: ["Basking Shark", "Bull Shark", "Great White Shark", "Hammerhead Shark", "Mako Shark",
+                "Nurse Shark", "Tiger Shark", "Whale Shark"]
+    },
+    "Fish Friday": {
+      limitGuesses: true,
+      animals: ["American Eel", "Angelfish", "Anglerfish", "Atlantic Cod", "Atlantic Cutlassfish",
+                "Atlantic Sailfish", "Atlantic Salmon", "Black Drum", "Black Grouper", "Black Marlin",
+                "Blue Catfish", "Blue Marlin", "Bluefin Tuna", "Brook Trout", "Channel Catfish",
+                "Chinook Salmon", "Cobia", "Coho Salmon", "Cubera Snapper", "Electric Eel",
+                "Flathead Catfish", "Gafftopsail Catfish", "Gag Grouper", "Goliath Grouper",
+                "Hardhead Catfish", "Indo-Pacific Sailfish", "Ladyfish", "Lane Snapper",
+                "Largemouth Bass", "Lined Seahorse", "Lionfish", "Mahi-Mahi", "Mangrove Snapper",
+                "Moray Eel", "Muskellunge", "Mutton Snapper", "Nassau Grouper", "Northern Pike",
+                "Pot-bellied Seahorse", "Rainbow Trout", "Red Grouper", "Red Snapper",
+                "Red-bellied Piranha", "Redfish", "Redtail Catfish", "Scamp Grouper", "Sheepshead",
+                "Smallmouth Bass", "Sockeye Salmon", "Speckled Trout", "Swordfish",
+                "Vermilion Snapper", "Wahoo", "Walleye", "Warsaw Grouper", "White Catfish",
+                "White Marlin", "Yellowedge Grouper", "Yellowfin Tuna", "Yellowtail Snapper"]
+    }
+  };
+
+  // ---- Picking today's puzzle (nothing here needs editing) ----
+  // "Today" is always Central Time, so the puzzle changes for everyone at the
+  // same moment: midnight Central. When you open the file from your own computer
+  // you can preview any queued day by adding ?date=2026-10-05 to the end of the
+  // address. That shortcut is switched off on the live site.
+  let previewDate = null;
+  function todayInCentral() {
+    if (location.protocol === 'file:') {
+      const wanted = new URLSearchParams(location.search).get('date');
+      if (wanted && /^\d{4}-\d{2}-\d{2}$/.test(wanted)) { previewDate = wanted; return wanted; }
+    }
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit'
+    }).formatToParts(new Date());
+    const part = type => parts.find(p => p.type === type).value;
+    return part('year') + '-' + part('month') + '-' + part('day');
+  }
+
+  function chooseTodaysPuzzle(list, today) {
+    const exact = list.find(p => p.date === today);
+    if (exact) return { puzzle: exact, status: 'today' };
+    const past = list.filter(p => p.date < today).sort((a, b) => b.date.localeCompare(a.date));
+    if (past.length) return { puzzle: past[0], status: 'missing-showing-latest' };
+    const upcoming = list.slice().sort((a, b) => a.date.localeCompare(b.date));
+    return { puzzle: upcoming[0], status: 'all-in-future' };
+  }
+
+  const todayCentral = todayInCentral();
+  const chosen = chooseTodaysPuzzle(puzzles, todayCentral);
+  const puzzle = chosen.puzzle;
+  const activeTheme = (puzzle.theme && themes[puzzle.theme]) ? themes[puzzle.theme] : null;
+
+  // The animals a player may guess today: the whole list, or just the theme's list.
+  function guessPool() {
+    return (activeTheme && activeTheme.limitGuesses) ? activeTheme.animals : masterAnimalList;
+  }
+  // Like canonicalAnimal, but returns null for animals outside today's allowed list.
+  function resolveGuess(name) {
+    const canon = canonicalAnimal(name);
+    return (canon && guessPool().includes(canon)) ? canon : null;
+  }
 
   // ---- Master animal list (starter set — alphabetized, easy to extend) ----
   const masterAnimalList = [
     "Aardvark", "Aardwolf", "Adelie Penguin", "African Elephant", "African Grey Parrot",
     "African Pygmy Hedgehog", "African Wild Dog", "Albatross", "Alpaca", "Alpine Ibex",
     "Alpine Marmot", "Amazon River Dolphin", "Amazonian Manatee", "American Alligator",
-    "American Bison", "American Bullfrog", "American Crow", "American Eel", "American Flamingo",
-    "American Lobster", "American Mink", "American Pika", "American Robin", "American Toad",
-    "American White Pelican", "Anaconda", "Andean Condor", "Angelfish", "Anglerfish",
-    "Anna's Hummingbird", "Anteater", "Arabian Oryx", "Arctic Fox", "Arctic Hare", "Arctic Wolf",
-    "Armadillo", "Asian Black Bear", "Asian Elephant", "Atlantic Cod", "Atlantic Cutlassfish",
-    "Atlantic Sailfish", "Atlantic Salmon", "Axis Deer", "Axolotl", "Baboon", "Bactrian Camel",
-    "Badger", "Baird's Tapir", "Bald Eagle", "Ball Python", "Banded Mongoose", "Barn Owl",
-    "Barred Owl", "Basking Shark", "Bearded Dragon", "Beaver", "Belted Kingfisher", "Bengal Tiger",
-    "Bighorn Sheep", "Black Bear", "Black Drum", "Black Grouper", "Black Mamba", "Black Marlin",
-    "Black Panther", "Black Rat", "Black Rhinoceros", "Black Swan", "Black Vulture", "Black Widow",
-    "Black-and-white Ruffed Lemur", "Black-backed Jackal", "Black-billed Magpie",
-    "Black-tailed Prairie Dog", "Blackbuck", "Blacktail Deer", "Blue Catfish", "Blue Crab",
-    "Blue Duiker", "Blue Jay", "Blue Marlin", "Blue Whale", "Blue-and-yellow Macaw",
-    "Blue-ringed Octopus", "Blue-spotted Stingray", "Bluefin Tuna", "Bluewing Teal",
-    "Boa Constrictor", "Bobcat", "Bongo", "Bonobo", "Bornean Orangutan", "Bottlenose Dolphin",
-    "Box Jellyfish", "Box Turtle", "Brazilian Tapir", "Brook Trout", "Brown Bear", "Brown Hyena",
-    "Brown Pelican", "Brown Rat", "Brown Recluse", "Brown Shrimp", "Bull Shark", "Burmese Python",
-    "Burrowing Owl", "Bushbuck", "California Condor", "California Quail", "California Sea Lion",
-    "Canada Lynx", "Cane Toad", "Cape Buffalo (African Buffalo)", "Cape Cobra", "Capybara",
-    "Caracal", "Caribou", "Carrion Crow", "Cassowary", "Channel Catfish", "Cheetah", "Chicken",
-    "Chimpanzee", "Chinchilla", "Chinese Alligator", "Chinese Water Deer", "Chinook Salmon",
-    "Chipmunk", "Cobia", "Coconut Crab", "Coho Salmon", "Common Brushtail Possum", "Common Duiker",
-    "Common Eland", "Common Kingfisher", "Common Loon", "Common Octopus", "Common Raven",
+    "American Bison", "American Black Duck", "American Bullfrog", "American Crow", "American Eel",
+    "American Flamingo", "American Lobster", "American Mink", "American Pika", "American Robin",
+    "American Toad", "American White Pelican", "American Wigeon", "Anaconda", "Andean Condor",
+    "Angelfish", "Anglerfish", "Anna's Hummingbird", "Anteater", "Arabian Oryx", "Arctic Fox",
+    "Arctic Hare", "Arctic Wolf", "Armadillo", "Asian Black Bear", "Asian Elephant",
+    "Atlantic Cod", "Atlantic Cutlassfish", "Atlantic Sailfish", "Atlantic Salmon", "Axis Deer",
+    "Axolotl", "Baboon", "Bactrian Camel", "Badger", "Baird's Tapir", "Bald Eagle", "Ball Python",
+    "Banded Mongoose", "Bar-headed Goose", "Barn Owl", "Barnacle Goose", "Barred Owl",
+    "Barrow's Goldeneye", "Basking Shark", "Bearded Dragon", "Beaver", "Belted Kingfisher",
+    "Bengal Tiger", "Bighorn Sheep", "Black Bear", "Black Drum", "Black Grouper", "Black Mamba",
+    "Black Marlin", "Black Panther", "Black Rat", "Black Rhinoceros", "Black Scoter", "Black Swan",
+    "Black Vulture", "Black Widow", "Black-and-white Ruffed Lemur", "Black-backed Jackal",
+    "Black-bellied Whistling-Duck", "Black-billed Magpie", "Black-tailed Prairie Dog", "Blackbuck",
+    "Blacktail Deer", "Blue Catfish", "Blue Crab", "Blue Duiker", "Blue Jay", "Blue Marlin",
+    "Blue Whale", "Blue-and-yellow Macaw", "Blue-ringed Octopus", "Blue-spotted Stingray",
+    "Bluefin Tuna", "Bluewing Teal", "Boa Constrictor", "Bobcat", "Bongo", "Bonobo",
+    "Bornean Orangutan", "Bottlenose Dolphin", "Box Jellyfish", "Box Turtle", "Brant",
+    "Brazilian Tapir", "Brook Trout", "Brown Bear", "Brown Hyena", "Brown Pelican", "Brown Rat",
+    "Brown Recluse", "Brown Shrimp", "Bufflehead", "Bull Shark", "Burmese Python", "Burrowing Owl",
+    "Bushbuck", "Cackling Goose", "California Condor", "California Quail", "California Sea Lion",
+    "Canada Goose", "Canada Lynx", "Cane Toad", "Canvasback", "Cape Buffalo (African Buffalo)",
+    "Cape Cobra", "Capybara", "Caracal", "Caribou", "Carrion Crow", "Cassowary", "Channel Catfish",
+    "Cheetah", "Chicken", "Chimpanzee", "Chinchilla", "Chinese Alligator", "Chinese Water Deer",
+    "Chinook Salmon", "Chipmunk", "Cinnamon Teal", "Cobia", "Coconut Crab", "Coho Salmon",
+    "Common Brushtail Possum", "Common Duiker", "Common Eider", "Common Eland", "Common Goldeneye",
+    "Common Kingfisher", "Common Loon", "Common Merganser", "Common Octopus", "Common Raven",
     "Common Reedbuck", "Common Shrew", "Common Wombat", "Copperhead", "Coral Snake", "Cottonmouth",
     "Coyote", "Crested Gecko", "Crested Porcupine", "Crown-of-thorns Starfish", "Cubera Snapper",
     "Cuttlefish", "Dall Sheep", "Deathstalker Scorpion", "Dhole", "Dingo", "Domestic Cat",
@@ -853,67 +1038,70 @@
     "Dromedary Camel", "Dugong", "Dungeness Crab", "Dwarf Hamster", "Earthworm",
     "Eastern Cottontail", "Eastern Diamondback Rattlesnake", "Eastern Gray Squirrel",
     "Eastern Grey Kangaroo", "Eastern Lowland Gorilla", "Eastern Mole", "Eastern Newt",
-    "Eastern Oyster", "Echidna", "Eclectus Parrot", "Egyptian Cobra", "Electric Eel", "Elk",
-    "Emperor Penguin", "Emperor Scorpion", "Emu", "Eurasian Lynx", "Eurasian Magpie",
-    "Eurasian Otter", "European Bison", "European Fallow Deer", "European Hare",
-    "European Hedgehog", "European Rabbit", "European Robin", "Fennec Fox", "Ferret",
-    "Fiddler Crab", "Fire Salamander", "Flathead Catfish", "Fox Squirrel", "Fruit Bat",
+    "Eastern Oyster", "Echidna", "Eclectus Parrot", "Egyptian Cobra", "Egyptian Goose",
+    "Electric Eel", "Elk", "Emperor Goose", "Emperor Penguin", "Emperor Scorpion", "Emu",
+    "Eurasian Lynx", "Eurasian Magpie", "Eurasian Otter", "Eurasian Wigeon", "European Bison",
+    "European Fallow Deer", "European Hare", "European Hedgehog", "European Rabbit",
+    "European Robin", "Fennec Fox", "Ferret", "Fiddler Crab", "Fire Salamander",
+    "Flathead Catfish", "Fox Squirrel", "Fruit Bat", "Fulvous Whistling-Duck", "Gadwall",
     "Gafftopsail Catfish", "Gag Grouper", "Galapagos Tortoise", "Garden Snail", "Garter Snake",
     "Gemsbok", "Genet", "Gentoo Penguin", "Ghost Crab", "Giant African Land Snail", "Giant Otter",
     "Giant Pacific Octopus", "Giant Panda", "Giant Squid", "Goat", "Golden Eagle", "Golden Jackal",
     "Golden Pheasant", "Goliath Birdeater", "Goliath Grouper", "Grant's Gazelle", "Gray Fox",
     "Gray Seal", "Gray Wolf", "Great Blue Heron", "Great Crested Newt", "Great Hornbill",
     "Great Horned Owl", "Great White Shark", "Greater Flamingo", "Greater Kudu",
-    "Greater Roadrunner", "Green Heron", "Green Iguana", "Green Sea Turtle", "Greenwing Teal",
-    "Grevy's Zebra", "Griffon Vulture", "Grizzly Bear", "Ground Pangolin", "Groundhog",
-    "Guinea Pig", "Gyrfalcon", "Hammerhead Shark", "Harbor Porpoise", "Harbor Seal",
-    "Hardhead Catfish", "Harp Seal", "Hermit Crab", "Hippopotamus", "Honey Badger", "Horse",
+    "Greater Roadrunner", "Greater Scaup", "Greater White-fronted Goose", "Green Heron",
+    "Green Iguana", "Green Sea Turtle", "Greenwing Teal", "Grevy's Zebra", "Greylag Goose",
+    "Griffon Vulture", "Grizzly Bear", "Ground Pangolin", "Groundhog", "Guinea Pig", "Gyrfalcon",
+    "Hammerhead Shark", "Harbor Porpoise", "Harbor Seal", "Hardhead Catfish", "Harlequin Duck",
+    "Harp Seal", "Hermit Crab", "Hippopotamus", "Honey Badger", "Hooded Merganser", "Horse",
     "House Sparrow", "Humboldt Squid", "Humpback Whale", "Hyacinth Macaw", "Iberian Lynx",
     "Impala", "Indian Cobra", "Indian Pangolin", "Indian Peafowl", "Indian Rhinoceros",
     "Indo-Pacific Sailfish", "Jaguar", "Jaguarundi", "Jumping Spider", "Kakapo",
-    "Keel-billed Toucan", "King Cobra", "King Crab", "King Penguin", "Kiwi", "Koala",
+    "Keel-billed Toucan", "King Cobra", "King Crab", "King Eider", "King Penguin", "Kiwi", "Koala",
     "Kodiak Bear", "Komodo Dragon", "Ladyfish", "Lane Snapper", "Largemouth Bass", "Least Weasel",
     "Leatherback Sea Turtle", "Leopard", "Leopard Gecko", "Leopard Seal", "Lesser Kudu",
-    "Lined Seahorse", "Lion", "Lion's Mane Jellyfish", "Lionfish", "Little Brown Bat", "Llama",
-    "Loggerhead Sea Turtle", "Long-tailed Weasel", "Mahi-Mahi", "Mako Shark", "Malayan Tapir",
-    "Mallard", "Mandarin Duck", "Mandrill", "Mangrove Snapper", "Manta Ray", "Mantis Shrimp",
-    "Mantled Howler Monkey", "Marabou Stork", "Marine Iguana", "Masai Giraffe", "Meerkat",
-    "Mexican Redknee Tarantula", "Moon Jellyfish", "Moose", "Moray Eel", "Mountain Goat",
-    "Mountain Gorilla", "Mountain Lion", "Mountain Reedbuck", "Mountain Zebra", "Mule Deer",
-    "Muscovy Duck", "Muskellunge", "Muskox", "Mute Swan", "Mutton Snapper", "Nassau Grouper",
-    "Nightingale", "Nile Crocodile", "Nile Monitor", "North American Porcupine",
-    "North American River Otter", "Northern Bobwhite", "Northern Elephant Seal",
-    "Northern Flying Squirrel", "Northern Pike", "Northern Pintail", "Nubian Ibex", "Numbat",
-    "Nurse Shark", "Nyala", "Ocellated Turkey", "Ocelot", "Okapi", "Orca", "Osprey", "Ostrich",
-    "Painted Turtle", "Palm Cockatoo", "Peregrine Falcon", "Philippine Tarsier",
-    "Pileated Woodpecker", "Pistol Shrimp", "Plains Zebra", "Platypus", "Poison Dart Frog",
-    "Polar Bear", "Pot-bellied Seahorse", "Puffin", "Quokka", "Raccoon", "Rainbow Trout",
-    "Red Deer", "Red Fox", "Red Grouper", "Red Kangaroo", "Red Panda", "Red Snapper",
-    "Red Squirrel", "Red Wolf", "Red-bellied Piranha", "Red-eared Slider", "Red-eyed Tree Frog",
-    "Red-headed Woodpecker", "Red-necked Wallaby", "Redfish", "Redtail Catfish",
-    "Reeves's Muntjac", "Reticulated Giraffe", "Reticulated Python", "Ring-necked Pheasant",
-    "Ring-tailed Lemur", "Roan Antelope", "Roe Deer", "Ruby-throated Hummingbird",
-    "Sable Antelope", "Saker Falcon", "Saltwater Crocodile", "Sandhill Crane", "Sarus Crane",
-    "Scamp Grouper", "Scarlet Macaw", "Scimitar-horned Oryx", "Sea Otter", "Serval", "Sheepshead",
-    "Siamang", "Siberian Ibex", "Siberian Tiger", "Sika Deer", "Sloth Bear", "Smallmouth Bass",
-    "Snapping Turtle", "Snow Crab", "Snow Leopard", "Snowshoe Hare", "Snowy Owl", "Sockeye Salmon",
-    "Song Sparrow", "Southern Elephant Seal", "Southern Flying Squirrel",
-    "Southern Ground Hornbill", "Southern Hairy-nosed Wombat", "Southern Reedbuck",
-    "Southern Stingray", "Speckled Trout", "Spectacled Bear", "Spider Monkey", "Spinner Dolphin",
-    "Spiny Lobster", "Spotted Hyena", "Spotted Sandpiper", "Spotted Skunk", "Springbok",
-    "Star-nosed Mole", "Steenbuck", "Steller Sea Lion", "Stoat", "Stone Crab", "Striped Hyena",
-    "Striped Skunk", "Sulphur-crested Cockatoo", "Sumatran Orangutan", "Sumatran Tiger",
-    "Sun Bear", "Sunflower Sea Star", "Swamp Wallaby", "Swift Fox", "Swordfish", "Syrian Hamster",
-    "Tasmanian Devil", "Thomson's Gazelle", "Three-toed Sloth", "Tiger Salamander", "Tiger Shark",
-    "Toco Toucan", "Tokay Gecko", "Trumpeter Swan", "Tundra Swan", "Turkey Vulture",
-    "Two-toed Sloth", "Vampire Bat", "Vaquita", "Vermilion Snapper", "Virginia Opossum", "Wahoo",
-    "Walleye", "Walrus", "Warsaw Grouper", "Warthog", "Water Buffalo", "Water Monitor",
-    "West Indian Manatee", "Western Lowland Gorilla", "Whale Shark", "White Catfish",
-    "White Marlin", "White Rhinoceros", "White Stork", "White-handed Gibbon", "Whitetail Deer",
-    "Whooping Crane", "Wild Boar", "Wild Turkey", "Wildebeest- Black", "Wildebeest- Blue",
-    "Wildebeest- Gold", "Wolf Spider", "Wolverine", "Wood Duck", "Wood Stork", "Yak",
-    "Yellow Mongoose", "Yellow-backed Duiker", "Yellow-bellied Marmot", "Yellowedge Grouper",
-    "Yellowfin Tuna", "Yellowtail Snapper"
+    "Lesser Scaup", "Lined Seahorse", "Lion", "Lion's Mane Jellyfish", "Lionfish",
+    "Little Brown Bat", "Llama", "Loggerhead Sea Turtle", "Long-tailed Duck", "Long-tailed Weasel",
+    "Mahi-Mahi", "Mako Shark", "Malayan Tapir", "Mallard", "Mandarin Duck", "Mandrill",
+    "Mangrove Snapper", "Manta Ray", "Mantis Shrimp", "Mantled Howler Monkey", "Marabou Stork",
+    "Marine Iguana", "Masai Giraffe", "Meerkat", "Mexican Redknee Tarantula", "Moon Jellyfish",
+    "Moose", "Moray Eel", "Mottled Duck", "Mountain Goat", "Mountain Gorilla", "Mountain Lion",
+    "Mountain Reedbuck", "Mountain Zebra", "Mule Deer", "Muscovy Duck", "Muskellunge", "Muskox",
+    "Mute Swan", "Mutton Snapper", "Nassau Grouper", "Nightingale", "Nile Crocodile",
+    "Nile Monitor", "North American Porcupine", "North American River Otter", "Northern Bobwhite",
+    "Northern Elephant Seal", "Northern Flying Squirrel", "Northern Pike", "Northern Pintail",
+    "Northern Shoveler", "Nubian Ibex", "Numbat", "Nurse Shark", "Nyala", "Ocellated Turkey",
+    "Ocelot", "Okapi", "Orca", "Osprey", "Ostrich", "Painted Turtle", "Palm Cockatoo",
+    "Peregrine Falcon", "Philippine Tarsier", "Pileated Woodpecker", "Pistol Shrimp",
+    "Plains Zebra", "Platypus", "Poison Dart Frog", "Polar Bear", "Pot-bellied Seahorse", "Puffin",
+    "Quokka", "Raccoon", "Rainbow Trout", "Red Deer", "Red Fox", "Red Grouper", "Red Kangaroo",
+    "Red Panda", "Red Snapper", "Red Squirrel", "Red Wolf", "Red-bellied Piranha",
+    "Red-breasted Merganser", "Red-eared Slider", "Red-eyed Tree Frog", "Red-headed Woodpecker",
+    "Red-necked Wallaby", "Redfish", "Redhead", "Redtail Catfish", "Reeves's Muntjac",
+    "Reticulated Giraffe", "Reticulated Python", "Ring-necked Duck", "Ring-necked Pheasant",
+    "Ring-tailed Lemur", "Roan Antelope", "Roe Deer", "Ross's Goose", "Ruby-throated Hummingbird",
+    "Ruddy Duck", "Sable Antelope", "Saker Falcon", "Saltwater Crocodile", "Sandhill Crane",
+    "Sarus Crane", "Scamp Grouper", "Scarlet Macaw", "Scimitar-horned Oryx", "Sea Otter", "Serval",
+    "Sheepshead", "Siamang", "Siberian Ibex", "Siberian Tiger", "Sika Deer", "Sloth Bear",
+    "Smallmouth Bass", "Snapping Turtle", "Snow Crab", "Snow Goose", "Snow Leopard",
+    "Snowshoe Hare", "Snowy Owl", "Sockeye Salmon", "Song Sparrow", "Southern Elephant Seal",
+    "Southern Flying Squirrel", "Southern Ground Hornbill", "Southern Hairy-nosed Wombat",
+    "Southern Reedbuck", "Southern Stingray", "Speckled Trout", "Spectacled Bear", "Spider Monkey",
+    "Spinner Dolphin", "Spiny Lobster", "Spotted Hyena", "Spotted Sandpiper", "Spotted Skunk",
+    "Springbok", "Star-nosed Mole", "Steenbuck", "Steller Sea Lion", "Stoat", "Stone Crab",
+    "Striped Hyena", "Striped Skunk", "Sulphur-crested Cockatoo", "Sumatran Orangutan",
+    "Sumatran Tiger", "Sun Bear", "Sunflower Sea Star", "Surf Scoter", "Swamp Wallaby",
+    "Swift Fox", "Swordfish", "Syrian Hamster", "Tasmanian Devil", "Thomson's Gazelle",
+    "Three-toed Sloth", "Tiger Salamander", "Tiger Shark", "Toco Toucan", "Tokay Gecko",
+    "Trumpeter Swan", "Tundra Swan", "Turkey Vulture", "Two-toed Sloth", "Vampire Bat", "Vaquita",
+    "Vermilion Snapper", "Virginia Opossum", "Wahoo", "Walleye", "Walrus", "Warsaw Grouper",
+    "Warthog", "Water Buffalo", "Water Monitor", "West Indian Manatee", "Western Lowland Gorilla",
+    "Whale Shark", "White Catfish", "White Marlin", "White Rhinoceros", "White Stork",
+    "White-handed Gibbon", "White-winged Scoter", "Whitetail Deer", "Whooping Crane", "Wild Boar",
+    "Wild Turkey", "Wildebeest- Black", "Wildebeest- Blue", "Wildebeest- Gold", "Wolf Spider",
+    "Wolverine", "Wood Duck", "Wood Stork", "Yak", "Yellow Mongoose", "Yellow-backed Duiker",
+    "Yellow-bellied Marmot", "Yellowedge Grouper", "Yellowfin Tuna", "Yellowtail Snapper"
   ];
   // The list is sorted A to Z automatically, so new animals can be added anywhere.
   masterAnimalList.sort((a, b) => a.localeCompare(b));
@@ -1039,6 +1227,37 @@
       "Cape Buffalo (African Buffalo)": [
           "Cape Buffalo",
           "African Buffalo"
+      ],
+      "Greater White-fronted Goose": [
+          "Specklebelly",
+          "Speckle Belly"
+      ],
+      "Snow Goose": [
+          "Blue Goose"
+      ],
+      "Canada Goose": [
+          "Honker"
+      ],
+      "American Wigeon": [
+          "Baldpate"
+      ],
+      "Northern Shoveler": [
+          "Spoonie"
+      ],
+      "Ring-necked Duck": [
+          "Ringbill"
+      ],
+      "Northern Pintail": [
+          "Sprig"
+      ],
+      "Wood Duck": [
+          "Woodie"
+      ],
+      "Black-bellied Whistling-Duck": [
+          "Black-bellied Whistling Duck"
+      ],
+      "Fulvous Whistling-Duck": [
+          "Fulvous Whistling Duck"
       ]
   };
 
@@ -1086,59 +1305,104 @@
     "Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"
   ];
 
-  // ---- Daily data validation ----
-  // Checks that today's puzzle data (edited above) actually lines up with the
-  // master lists and options below it. If something doesn't match, a warning
-  // banner appears at the top of the page instead of the game silently breaking.
+  // ---- Puzzle data validation ----
+  // Checks every queued puzzle against the master lists and its own options.
+  // Problems with TODAY's puzzle also show on the live site, so you can't miss
+  // them. Everything else (other days, queue notices) only shows when you open
+  // the file from your own computer, so players never see it.
   (function validateDailyData() {
-    const issues = [];
+    const isLocal = location.protocol === 'file:';
 
-    const animalInList = canonicalAnimal(puzzle.animal.name) !== null;
-    if (!animalInList) {
-      issues.push(`"${puzzle.animal.name}" is not in the master animal list, so it can't be guessed. Add it to masterAnimalList, or fix the spelling.`);
+    function checkPuzzle(p) {
+      const found = [];
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(p.date)) {
+        found.push(`The date "${p.date}" isn't in YYYY-MM-DD format (e.g. "2026-09-23").`);
+      }
+      if (canonicalAnimal(p.animal.name) === null) {
+        found.push(`"${p.animal.name}" is not in the master animal list, so it can't be guessed. Add it to masterAnimalList, or fix the spelling.`);
+      }
+      p.countries.accepted.forEach(country => {
+        if (!masterCountryList.some(c => c.toLowerCase() === country.toLowerCase())) {
+          found.push(`"${country}" is not in the master country list, so it can't be guessed and won't highlight on the map. Check the spelling.`);
+        }
+      });
+      if (!p.funFact.options.some(o => o === p.funFact.correctAnswer)) {
+        found.push(`funFact.correctAnswer ("${p.funFact.correctAnswer}") doesn't exactly match any of the funFact.options. Check for typos or extra spaces.`);
+      }
+      if (p.theme) {
+        if (!themes[p.theme]) {
+          found.push(`The theme "${p.theme}" isn't defined in the themes list. Check the spelling, or add the theme.`);
+        } else if (themes[p.theme].limitGuesses) {
+          const canon = canonicalAnimal(p.animal.name);
+          if (canon && !themes[p.theme].animals.includes(canon)) {
+            found.push(`"${p.animal.name}" isn't in the "${p.theme}" animal list, but that theme limits guesses to its list. Players couldn't pick the answer.`);
+          }
+        }
+      }
+      if (!p.countries.prompt || p.countries.prompt.trim() === "") {
+        found.push(`countries.prompt is empty. Add a question like "Where does this animal live in the wild?" or "In which countries' waters does this fish live?"`);
+      }
+      return found;
     }
 
-    Object.keys(animalAliases).forEach(main => {
-      if (!masterAnimalList.some(a => a === main)) {
-        issues.push(`animalAliases has an entry for "${main}", which isn't in masterAnimalList. Check the spelling.`);
-      }
-      animalAliases[main].forEach(alt => {
-        if (masterAnimalList.some(a => a.toLowerCase() === alt.toLowerCase())) {
-          issues.push(`"${alt}" is listed as an alternate name for "${main}" but is also its own entry in masterAnimalList. Remove one of them.`);
+    const general = [];
+    Object.keys(themes).forEach(name => {
+      themes[name].animals.forEach(a => {
+        if (!masterAnimalList.includes(a)) {
+          general.push(`Theme "${name}" lists "${a}", which doesn't match any name in masterAnimalList. Check the spelling.`);
         }
       });
     });
-
-    puzzle.countries.accepted.forEach(country => {
-      const inList = masterCountryList.some(c => c.toLowerCase() === country.toLowerCase());
-      if (!inList) {
-        issues.push(`"${country}" is not in the master country list, so it can't be guessed and won't highlight on the map. Check the spelling.`);
+    Object.keys(animalAliases).forEach(main => {
+      if (!masterAnimalList.some(a => a === main)) {
+        general.push(`animalAliases has an entry for "${main}", which isn't in masterAnimalList. Check the spelling.`);
       }
+      animalAliases[main].forEach(alt => {
+        if (masterAnimalList.some(a => a.toLowerCase() === alt.toLowerCase())) {
+          general.push(`"${alt}" is listed as an alternate name for "${main}" but is also its own entry in masterAnimalList. Remove one of them.`);
+        }
+      });
     });
-
-    const correctIsAnOption = puzzle.funFact.options.some(
-      o => o === puzzle.funFact.correctAnswer
-    );
-    if (!correctIsAnOption) {
-      issues.push(`funFact.correctAnswer ("${puzzle.funFact.correctAnswer}") doesn't exactly match any of the funFact.options. Check for typos or extra spaces.`);
-    }
-
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(puzzle.date)) {
-      issues.push(`The date "${puzzle.date}" isn't in YYYY-MM-DD format (e.g. "2026-09-23").`);
-    }
-
     if (gameUrl === "https://your-site-link-goes-here") {
-      issues.push(`gameUrl still has the placeholder link. Once your site is live, update it near the top of the script so shared results include a working link.`);
+      general.push(`gameUrl still has the placeholder link. Once your site is live, update it near the top of the script so shared results include a working link.`);
     }
 
-    if (!puzzle.countries.prompt || puzzle.countries.prompt.trim() === "") {
-      issues.push(`countries.prompt is empty. Add a question like "Where does this animal live in the wild?" or "In which countries' waters does this fish live?"`);
+    const todaysIssues = general.concat(checkPuzzle(puzzle).map(i => isLocal ? `[${puzzle.date}] ${i}` : i));
+
+    let shown = todaysIssues;
+    let title = "Today's puzzle data needs a fix";
+
+    if (isLocal) {
+      title = "Puzzle queue needs attention";
+      const notices = [];
+      if (previewDate) {
+        notices.push(`Preview mode: showing the puzzle for ${previewDate} (from ?date= in the address). Players never see this.`);
+      }
+      if (chosen.status === 'missing-showing-latest') {
+        notices.push(`No puzzle is queued for ${todayCentral}. The game is showing the most recent one (${puzzle.date}). Add a block for today.`);
+      } else if (chosen.status === 'all-in-future') {
+        notices.push(`Every queued puzzle is dated after ${todayCentral}. The game is showing the earliest one (${puzzle.date}).`);
+      } else if (!puzzles.some(p => p.date > todayCentral)) {
+        notices.push(`Nothing is queued after ${todayCentral}. Add tomorrow's puzzle before midnight Central.`);
+      }
+
+      const seen = {};
+      puzzles.forEach(p => {
+        if (seen[p.date]) notices.push(`Two puzzles share the date ${p.date}. Only the first one will ever show.`);
+        seen[p.date] = true;
+      });
+
+      const others = [];
+      puzzles.forEach(p => {
+        if (p !== puzzle) checkPuzzle(p).forEach(i => others.push(`[${p.date}] ${i}`));
+      });
+      shown = notices.concat(todaysIssues, others);
     }
 
-    if (issues.length > 0) {
+    if (shown.length > 0) {
       const banner = document.getElementById('data-warning-banner');
-      banner.innerHTML = '<strong>⚠ Today\'s puzzle data needs a fix</strong><ul>' +
-        issues.map(i => `<li>${i}</li>`).join('') +
+      banner.innerHTML = '<strong>⚠ ' + title + '</strong><ul>' +
+        shown.map(i => `<li>${i}</li>`).join('') +
         '</ul>';
       banner.style.display = 'block';
     }
@@ -1163,6 +1427,17 @@
   document.getElementById('date-label').textContent = formatDate(puzzle.date);
   document.getElementById('round2-prompt').textContent = puzzle.countries.prompt;
 
+  if (puzzle.theme) {
+    const badge = document.getElementById('theme-badge');
+    badge.textContent = puzzle.theme.toUpperCase();
+    badge.style.display = 'inline-block';
+    if (activeTheme && activeTheme.limitGuesses) {
+      const note = document.getElementById('theme-note');
+      note.textContent = "Today's guesses are limited to " + puzzle.theme + " animals.";
+      note.style.display = 'block';
+    }
+  }
+
   function formatDate(isoDate) {
     const [year, month, day] = isoDate.split('-').map(Number);
     const d = new Date(year, month - 1, day);
@@ -1185,22 +1460,33 @@
   function renderDropdown(query) {
     if (!query) { dropdown.classList.remove('open'); dropdown.innerHTML = ''; return; }
     const q = query.toLowerCase();
-    currentMatches = [];
-    masterAnimalList.forEach(a => {
-      if (currentMatches.length >= 8) return;
-      if (a.toLowerCase().includes(q)) {
-        currentMatches.push({ name: a, hint: null });
+    // Best matches first: a name that starts with what was typed, then a name with a
+    // word that starts with it ("Canada Goose" for "goose"), then anything that contains it
+    // ("Mongoose"). Matches found only through an alternate name come last.
+    const rankOf = text => {
+      const t = text.toLowerCase();
+      if (t.startsWith(q)) return 0;
+      if (t.split(/[\s\-']+/).some(word => word.startsWith(q))) return 1;
+      return t.includes(q) ? 2 : -1;
+    };
+    const found = [];
+    guessPool().forEach((a, order) => {
+      const r = rankOf(a);
+      if (r >= 0) {
+        found.push({ name: a, hint: null, rank: r, order });
       } else {
-        const alt = (animalAliases[a] || []).find(x => x.toLowerCase().includes(q));
-        if (alt) currentMatches.push({ name: a, hint: alt });
+        const alt = (animalAliases[a] || []).find(x => rankOf(x) >= 0);
+        if (alt) found.push({ name: a, hint: alt, rank: 3 + rankOf(alt), order });
       }
     });
+    found.sort((x, y) => x.rank - y.rank || x.order - y.order);
+    currentMatches = found.slice(0, 15);
     activeIndex = -1;
     dropdown.innerHTML = '';
     if (currentMatches.length === 0) {
       const div = document.createElement('div');
       div.className = 'no-match';
-      div.textContent = 'No matches in the animal list';
+      div.textContent = (activeTheme && activeTheme.limitGuesses) ? "No matches in today's themed list" : 'No matches in the animal list';
       dropdown.appendChild(div);
     } else {
       currentMatches.forEach(match => {
@@ -1249,7 +1535,7 @@
       e.preventDefault();
       if (activeIndex >= 0 && currentMatches[activeIndex]) {
         selectAnimal(currentMatches[activeIndex].name);
-      } else if (canonicalAnimal(input.value)) {
+      } else if (resolveGuess(input.value)) {
         submitBtn.disabled = gameOver;
         dropdown.classList.remove('open');
         submitGuess();
@@ -1268,7 +1554,7 @@
   function submitGuess() {
     const guess = input.value.trim();
     if (!guess || gameOver) return;
-    const guessedAnimal = canonicalAnimal(guess);
+    const guessedAnimal = resolveGuess(guess);
     if (!guessedAnimal) return;
 
     guessesUsed++;
@@ -1312,7 +1598,21 @@
       launchConfetti();
     }
 
+    showSpeciesCard();
     document.getElementById('continue-btn').classList.add('show');
+  }
+
+  // Optional card shown after round 1. Each line only appears if you filled it in.
+  function showSpeciesCard() {
+    const a = puzzle.animal;
+    const rows = [];
+    if (a.scientificName) rows.push(`<span class="sc-label">Scientific name</span><span class="sc-name">${a.scientificName}</span>`);
+    if (a.status)         rows.push(`<span class="sc-label">Conservation status</span>${a.status}`);
+    if (a.habitat)        rows.push(`<span class="sc-label">Habitat</span>${a.habitat}`);
+    if (rows.length === 0) return;
+    const card = document.getElementById('species-card');
+    card.innerHTML = rows.map(r => `<div class="sc-row">${r}</div>`).join('');
+    card.classList.add('show');
   }
 
   document.getElementById('continue-btn').addEventListener('click', () => {
@@ -1582,6 +1882,12 @@
       launchConfetti();
     }
 
+    if (puzzle.funFact.explanation) {
+      const box = document.getElementById('explain-box');
+      box.innerHTML = '<span class="sc-label">Why</span>' + puzzle.funFact.explanation;
+      box.classList.add('show');
+    }
+
     document.getElementById('continue-btn-r3').classList.add('show');
   }
 
@@ -1635,6 +1941,7 @@
 
     const shareText =
       `Rangedle — ${formatDate(puzzle.date)}\n` +
+      (puzzle.theme ? `${puzzle.theme}\n` : '') +
       `Score: ${scoreCount}/3\n` +
       `🦌 Animal:   ${squares1}\n` +
       `🌍 Country:  ${squares2}\n` +
