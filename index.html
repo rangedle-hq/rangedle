@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rangedle — Round 1: Identify the Animal</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2213%22%20fill=%22%231E3626%22/%3E%3Cpath%20d=%22M21%2049V15h13a10%2010%200%200%201%200%2021H21M33%2036l12%2013%22%20fill=%22none%22%20stroke=%22%23E7DCC3%22%20stroke-width=%227%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22/%3E%3Ccircle%20cx=%2248%22%20cy=%2216%22%20r=%223.5%22%20fill=%22%23B8863B%22/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -284,6 +286,12 @@
     border-radius: 3px;
     font-size: 15px;
     border: 1px solid transparent;
+  }
+  .guess-entry .guess-hint {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--ink-soft);
   }
   .guess-entry.wrong {
     background: var(--rust-bg);
@@ -842,34 +850,7 @@
   // your images/ folder.
   const puzzles = [
 
-    // ---------- Day 1: Wednesday, November 18, 2026 ----------
-    {
-      date: "2026-11-18",
-      theme: "",
-      animal: {
-        name: "Polar Bear",
-        scientificName: "Ursus maritimus",
-        status: "Vulnerable",
-        habitat: "Arctic sea ice, coastlines and the waters around them",
-        imageUrl: "images/polar-bear.jpg",
-        imageCredit: "Photo: AWeith (CC BY-SA 4.0, via Wikimedia Commons)",
-        maxGuesses: 3
-      },
-      countries: {
-        mode: "countries",
-        accepted: ["United States", "Canada", "Russia", "Norway", "Denmark", "Greenland"],
-        maxGuesses: 3,
-        prompt: "Which countries have wild polar bear populations?"
-      },
-      funFact: {
-        question: "What color is a polar bear's skin?",
-        options: ["Pink", "Black", "White", "Gray"],
-        correctAnswer: "Black",
-        explanation: "Polar bears have black skin under their fur, which helps them absorb heat from the sun. Their fur isn't truly white either. Each hair is clear and scatters light, which makes the coat look white."
-      }
-    },
-
-    // ---------- Day 2: Thursday, November 19, 2026 ----------
+    // ---------- Thursday, November 19, 2026 ----------
     {
       date: "2026-11-19",
       theme: "",
@@ -892,6 +873,7 @@
                    "Oklahoma", "Kansas", "Nebraska", "California", "Oregon", "Washington", "Idaho",
                    "Ontario", "Quebec", "New Brunswick", "Nova Scotia", "Manitoba", "British Columbia"],
         maxGuesses: 3,
+        hints: true,
         prompt: "Which states and provinces hold wild wood duck populations?"
       },
       funFact: {
@@ -906,7 +888,9 @@
     },
 
     /* ---- TEMPLATE: copy everything from { to }, paste it above this comment ----
-       Optional fields: theme, scientificName, status, habitat and explanation.
+       Optional fields: theme, scientificName, status, habitat, explanation and hints.
+       Set  hints: true  in the countries block to show the distance and direction to the
+       nearest accepted answer under each wrong guess in round 2 (works in both modes).
        For North American animals, set  mode: "states"  and list states, provinces or Mexican
        states in "accepted" (for example ["Colorado", "Montana", "Alberta"]). Leave it as
        "countries" for everything else.
@@ -927,6 +911,7 @@
         mode: "countries",
         accepted: ["Country", "Country"],
         maxGuesses: 3,
+        hints: false,
         prompt: "Where does this animal live in the wild?"
       },
       funFact: {
@@ -1053,7 +1038,7 @@
     "Banded Mongoose", "Bar-headed Goose", "Barn Owl", "Barnacle Goose", "Barred Owl",
     "Barrow's Goldeneye", "Basking Shark", "Bearded Dragon", "Beaver", "Belted Kingfisher",
     "Bengal Tiger", "Bighorn Sheep", "Black Bear", "Black Drum", "Black Grouper", "Black Mamba",
-    "Black Marlin", "Black Panther", "Black Rat", "Black Rhinoceros", "Black Scoter", "Black Swan",
+    "Black Marlin", "Black Rat", "Atlantic Ghost Crab", "Atlantic Marsh Fiddler Crab", "Blue King Crab", "Caribbean Hermit Crab", "Golden King Crab", "Horned Ghost Crab", "Red Hermit Crab", "Red King Crab", "Sand Fiddler Crab", "Black Rhinoceros", "Black Scoter", "Black Swan",
     "Black Vulture", "Black Widow", "Black-and-white Ruffed Lemur", "Black-backed Jackal",
     "Black-bellied Whistling-Duck", "Black-billed Magpie", "Black-tailed Prairie Dog", "Blackbuck",
     "Blacktail Deer", "Blue Catfish", "Blue Crab", "Blue Duiker", "Blue Jay", "Blue Marlin",
@@ -1080,10 +1065,10 @@
     "Electric Eel", "Elk", "Emperor Goose", "Emperor Penguin", "Emperor Scorpion", "Emu",
     "Eurasian Lynx", "Eurasian Magpie", "Eurasian Otter", "Eurasian Wigeon", "European Bison",
     "European Fallow Deer", "European Hare", "European Hedgehog", "European Rabbit",
-    "European Robin", "Fennec Fox", "Ferret", "Fiddler Crab", "Fire Salamander",
+    "European Robin", "Fennec Fox", "Ferret", "Fire Salamander",
     "Flathead Catfish", "Fox Squirrel", "Fruit Bat", "Fulvous Whistling-Duck", "Gadwall",
     "Gafftopsail Catfish", "Gag Grouper", "Galapagos Tortoise", "Garden Snail", "Garter Snake",
-    "Gemsbok", "Genet", "Gentoo Penguin", "Ghost Crab", "Giant African Land Snail", "Giant Otter",
+    "Gemsbok", "Genet", "Gentoo Penguin", "Giant African Land Snail", "Giant Otter",
     "Giant Pacific Octopus", "Giant Panda", "Giant Squid", "Goat", "Golden Eagle", "Golden Jackal",
     "Golden Pheasant", "Goliath Birdeater", "Goliath Grouper", "Grant's Gazelle", "Gray Fox",
     "Gray Seal", "Gray Wolf", "Great Blue Heron", "Great Crested Newt", "Great Hornbill",
@@ -1092,11 +1077,11 @@
     "Green Iguana", "Green Sea Turtle", "Greenwing Teal", "Grevy's Zebra", "Greylag Goose",
     "Griffon Vulture", "Grizzly Bear", "Ground Pangolin", "Groundhog", "Guinea Pig", "Gyrfalcon",
     "Hammerhead Shark", "Harbor Porpoise", "Harbor Seal", "Hardhead Catfish", "Harlequin Duck",
-    "Harp Seal", "Hermit Crab", "Hippopotamus", "Honey Badger", "Hooded Merganser", "Horse",
+    "Harp Seal", "Hippopotamus", "Honey Badger", "Hooded Merganser", "Horse",
     "House Sparrow", "Humboldt Squid", "Humpback Whale", "Hyacinth Macaw", "Iberian Lynx",
     "Impala", "Indian Cobra", "Indian Pangolin", "Indian Peafowl", "Indian Rhinoceros",
     "Indo-Pacific Sailfish", "Jaguar", "Jaguarundi", "Jumping Spider", "Kakapo",
-    "Keel-billed Toucan", "King Cobra", "King Crab", "King Eider", "King Penguin", "Kiwi", "Koala",
+    "Keel-billed Toucan", "King Cobra", "King Eider", "King Penguin", "Kiwi", "Koala",
     "Kodiak Bear", "Komodo Dragon", "Ladyfish", "Lane Snapper", "Largemouth Bass", "Least Weasel",
     "Leatherback Sea Turtle", "Leopard", "Leopard Gecko", "Leopard Seal", "Lesser Kudu",
     "Lesser Scaup", "Lined Seahorse", "Lion", "Lion's Mane Jellyfish", "Lionfish",
@@ -1489,6 +1474,9 @@
           }
         }
       }
+      if (p.countries.hints !== undefined && typeof p.countries.hints !== 'boolean') {
+        found.push(`countries.hints should be true or false (no quotes).`);
+      }
       if (!p.countries.prompt || p.countries.prompt.trim() === "") {
         found.push(`countries.prompt is empty. Add a question like "Where does this animal live in the wild?" or "In which countries' waters does this fish live?"`);
       }
@@ -1818,6 +1806,48 @@
   let worldMapPaths = {};
   let worldMapReady = false;
 
+  // Center point of a shape (uses its largest piece, so far-off islands don't drag it away).
+  function mainCenter(feature) {
+    const g = feature.geometry;
+    if (g.type !== 'MultiPolygon') return d3.geoCentroid(feature);
+    let best = null, bestArea = -1;
+    g.coordinates.forEach(c => {
+      const poly = { type: 'Polygon', coordinates: c };
+      const area = d3.geoArea(poly);
+      if (area > bestArea) { bestArea = area; best = poly; }
+    });
+    return d3.geoCentroid(best);
+  }
+  const worldCenters = {};
+  const regionCenters = {};
+
+  // Distance and direction from one place to the nearest accepted answer, e.g. "1,800 mi (2,900 km) southeast".
+  function placeCenter(name) {
+    return round2Mode === 'states' ? regionCenters[regionIdByName[name]] : worldCenters[mapNameFor(name)];
+  }
+  function hintFor(guessedPlace) {
+    const from = placeCenter(guessedPlace);
+    if (!from) return '';
+    let best = null, bestD = Infinity;
+    puzzle.countries.accepted.forEach(a => {
+      const c = placeCenter(a);
+      if (!c) return;
+      const d = d3.geoDistance(from, c);
+      if (d < bestD) { bestD = d; best = c; }
+    });
+    if (!best) return '';
+    const rad = Math.PI / 180;
+    const [l1, p1] = [from[0] * rad, from[1] * rad], [l2, p2] = [best[0] * rad, best[1] * rad];
+    const y = Math.sin(l2 - l1) * Math.cos(p2);
+    const x = Math.cos(p1) * Math.sin(p2) - Math.sin(p1) * Math.cos(p2) * Math.cos(l2 - l1);
+    const bearing = (Math.atan2(y, x) / rad + 360) % 360;
+    const dirs = ['north', 'northeast', 'east', 'southeast', 'south', 'southwest', 'west', 'northwest'];
+    const dir = dirs[Math.round(bearing / 45) % 8];
+    const miles = Math.max(10, Math.round(bestD * 3958.8 / 10) * 10);
+    const km = Math.max(10, Math.round(miles * 1.609344 / 10) * 10);
+    return `${miles.toLocaleString('en-US')} mi (${km.toLocaleString('en-US')} km) ${dir}`;
+  }
+
   function initWorldMap() {
     const svg = d3.select('#world-map-svg');
     const featureCollection = topojson.feature(worldTopoJSON, worldTopoJSON.objects.countries);
@@ -1831,7 +1861,7 @@
       .attr('d', path)
       .attr('class', 'country-shape')
       .attr('data-name', d => d.properties.name)
-      .each(function (d) { worldMapPaths[d.properties.name] = this; });
+      .each(function (d) { worldMapPaths[d.properties.name] = this; worldCenters[d.properties.name] = mainCenter(d); });
 
     worldMapReady = true;
   }
@@ -1861,7 +1891,7 @@
       .attr('d', path)
       .attr('class', 'country-shape')
       .attr('data-id', d => d.properties.id)
-      .each(function (d) { regionPaths[d.properties.id] = this; });
+      .each(function (d) { regionPaths[d.properties.id] = this; regionCenters[d.properties.id] = mainCenter(d); });
 
     // Hawaii sits far out in the Pacific, so show it as an inset in the empty corner
     const hi = feats.find(f => f.properties.id === 'US-HI');
@@ -1999,7 +2029,8 @@
 
     const entry = document.createElement('div');
     entry.className = 'guess-entry ' + (isCorrect ? 'right' : 'wrong');
-    entry.innerHTML = `<span>${guessedPlace}</span><span class="stamp">${isCorrect ? '✓ CORRECT' : 'X WRONG'}</span>`;
+    const hintText = (!isCorrect && puzzle.countries.hints) ? hintFor(guessedPlace) : '';
+    entry.innerHTML = `<span>${guessedPlace}${hintText ? `<span class="guess-hint">${hintText}</span>` : ''}</span><span class="stamp">${isCorrect ? '✓ CORRECT' : 'X WRONG'}</span>`;
     guessLogR2.prepend(entry);
 
     renderPipsR2();
